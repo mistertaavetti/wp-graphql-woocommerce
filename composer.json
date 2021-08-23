@@ -1,5 +1,5 @@
 {
-    "name": "mistertaavetti/wp-graphql-woocommerce",
+    "name": "tvt/wp-graphql-woocommerce",
     "description": "WooCommerce bindings for WPGraphQL",
     "type": "wordpress-plugin",
     "keywords": [
