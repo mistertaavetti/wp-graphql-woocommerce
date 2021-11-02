@@ -9,6 +9,8 @@
 namespace WPGraphQL\WooCommerce\Data\Mutation;
 
 use GraphQL\Error\UserError;
+use WP_Error;
+
 use function WC;
 
 /**
@@ -496,7 +498,7 @@ class Checkout_Mutation {
 		}
 
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-		do_action( 'woocommerce_after_checkout_validation', $data );
+		do_action( 'woocommerce_after_checkout_validation', $data, new WP_Error() );
 	}
 
 	/**
@@ -507,7 +509,7 @@ class Checkout_Mutation {
 	 *
 	 * @return array.
 	 */
-	protected function process_order_payment( $order_id, $payment_method ) {
+	protected static function process_order_payment( $order_id, $payment_method ) {
 		$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
 		if ( ! isset( $available_gateways[ $payment_method ] ) ) {
@@ -536,7 +538,7 @@ class Checkout_Mutation {
 	 *
 	 * @return array
 	 */
-	protected function process_order_without_payment( $order_id, $transaction_id = '' ) {
+	protected static function process_order_without_payment( $order_id, $transaction_id = '' ) {
 		$order = wc_get_order( $order_id );
 		$order->payment_complete( $transaction_id );
 		wc_empty_cart();
